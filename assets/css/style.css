@@ -1867,6 +1867,13 @@ code {
   letter-spacing: -0.025em;
 }
 
+.index-hero h1.display-title {
+  font-size: clamp(3.4rem, 7vw, 5.4rem);
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  margin: 18px 0 14px;
+}
+
 .index-lead {
   max-width: 40em;
   margin: 0;
