@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SKY 吴渊博 · 作品集</title>
-<meta name="description" content="作品集：自己动手做的桌面整理器，从图标移不进去，到可以安装给别人用。附演示视频与制作过程。">
+<meta name="description" content="作品集：自己动手做的桌面整理器，和一个能排盘、摇卦、解梦的民俗聊天机器人。附演示、制作过程与取舍。">
 <meta name="author" content="SKY 吴渊博">
 <meta name="theme-color" content="#08090b">
 <link rel="canonical" href="https://sky-code1.github.io/">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sky-code1.github.io/">
 <meta property="og:title" content="SKY 吴渊博 · 作品集">
-<meta property="og:description" content="我给自己的桌面做了个整理器。附演示视频与从零到能安装的制作过程。">
+<meta property="og:description" content="两件自己动手做的东西：一个桌面整理器，一个能看运势的民俗聊天机器人。">
 <meta property="og:image" content="assets/img/demo-poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -87,7 +87,15 @@
       <div class="section-head reveal">
         <div>
           <span class="eyebrow">作品</span>
-          <h2>桌面整理器 · Desktop Organizer</h2>
+          <h2>两件自己动手做的东西</h2>
+        </div>
+        <span class="more">/// 一个桌面端，一个对话式</span>
+      </div>
+
+      <div class="work-sub-head reveal">
+        <div>
+          <span class="eyebrow">作品 01 · 2026.04 – 2026.10</span>
+          <h3>桌面整理器 · Desktop Organizer</h3>
         </div>
         <a class="more" href="work/desktop-organizer.html">完整案例 →</a>
       </div>
@@ -123,21 +131,62 @@
         </div>
       </div>
 
+      <div class="work-sub">
+        <div class="work-sub-head reveal">
+          <div>
+            <span class="eyebrow">作品 02 · 2025.06 – 2026.11</span>
+            <h3>玉楼问命 · 民俗命理聊天机器人</h3>
+          </div>
+          <a class="more" href="work/yulou.html">完整案例 →</a>
+        </div>
+
+        <div class="work-feature reveal">
+          <a class="shot" href="work/yulou.html">
+            <img src="assets/img/yulou-card.jpg" alt="玉楼问命：六爻卦象卡，含本卦、变卦与动爻" loading="lazy">
+          </a>
+          <div class="copy">
+            <p>
+              2025 年学 LangChain 时写的算命 agent：FastAPI、Redis、Qdrant、三个 Key。
+              换台电脑就打不开了。2026 年重做——推演规则搬进浏览器，
+              <strong>0 个前端依赖、0 个 Key、手机扫码就能聊</strong>；
+              接上大模型后，它只负责把算好的结果说成人话。
+            </p>
+
+            <div class="metrics-inline">
+              <div><b>0</b><span>前端依赖</span></div>
+              <div><b>0</b><span>Key 也能用</span></div>
+              <div><b>510</b><span>条八字样本</span></div>
+            </div>
+
+            <div class="tags" style="margin-bottom:16px">
+              <span class="tag">原生 JS</span>
+              <span class="tag">LangChain（v1）</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag">民俗文化</span>
+            </div>
+
+            <a class="link-arrow" href="work/yulou.html">
+              看它怎么从跑不起来变成能聊天 <span class="arw">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="work-more reveal">
         <article class="mini-card">
           <span class="ph-label">2025.06 – 2025.09 · 独立项目负责人</span>
           <h4>AI 智能体多场景应用</h4>
           <p>
             用 LangChain 搭了 3 款智能体（多功能聊天机器人、文档处理机器人），
-            解决信息碎片化与文档管理低效。响应速度 <span class="accent">+40%</span>，
-            信息总结准确率 <span class="accent">85%+</span>。
+            解决信息碎片化与文档管理低效。其中「民俗聊天机器人」已经单独迭代成上面的作品 02；
+            响应速度 <span class="accent">+40%</span>，信息总结准确率 <span class="accent">85%+</span>。
           </p>
         </article>
 
         <article class="mini-card ghost">
-          <span class="ph-label">正在整理</span>
-          <h4>更多作品</h4>
-          <p>实习中的工作涉及公司信息，脱敏之后会补在这里。</p>
+          <span class="ph-label">2026.04 – 至今</span>
+          <h4>实习中的产品工作</h4>
+          <p>涉及公司信息，脱敏之后会补在这里。</p>
         </article>
       </div>
     </div>
@@ -156,7 +205,7 @@
 
       <p class="prose reveal" style="max-width:44em; margin-bottom:10px">
         真正花时间的不是"把界面画出来"，而是一个个看起来已经做完了、实际一用就露馅的问题。
-        下面是最典型的四个，每一个都对应一次返工。
+        下面是桌面整理器最典型的四个，每一个都对应一次返工。
       </p>
 
       <ol class="timeline reveal" style="max-width:820px">
@@ -181,6 +230,11 @@
           <p>要装 .NET、缺文件、没有卸载——从"自己能用"到"能交给别人"，又是另一轮返工。</p>
         </li>
       </ol>
+
+      <p class="note reveal" style="max-width:52em; margin-top:28px">
+        玉楼问命也有一份自己的坑：节气差一天、23:00 出生算哪天、模型乱改数字……
+        <a class="accent" href="work/yulou.html#iterations">看它的六个阶段 →</a>
+      </p>
     </div>
   </section>
 
@@ -199,7 +253,7 @@
           <p>
             我是 SKY（吴渊博），南京大学建筑学硕士在读（2027 届）。
             建筑学训练的是"在约束下做系统设计"——场地有限、规范很硬、使用者不会读你的图纸，
-            所以要在动手之前想清楚边界和例外。做这个桌面整理器，我也是同样的路数。
+            所以要在动手之前想清楚边界和例外。做桌面整理器、做玉楼问命，我也是同样的路数。
           </p>
           <p>
             我不是开发，只会一点 Python。但我觉得做产品的人应该能自己把东西做出来，
@@ -254,7 +308,7 @@
         <span class="eyebrow">联系</span>
         <h2>想聊聊这个作品？</h2>
         <p class="lead">
-          如果你对某一步怎么做的感兴趣——比如「显示桌面」那个问题最后是怎么解决的，
+          如果你对某一步怎么做的感兴趣——比如「显示桌面」最后怎么解决、节气边界怎么校准，
           或者想看我本机上的成品，随时找我。
         </p>
 

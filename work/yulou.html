@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>玉楼问命 · 案例 | SKY 吴渊博</title>
+<meta name="description" content="把一个跑不起来的 LangChain demo，做成手机打开就能聊的民俗命理机器人：砍依赖、定规则、让大模型只说人话。">
+<meta name="author" content="SKY 吴渊博">
+<meta name="theme-color" content="#08090b">
+<link rel="canonical" href="https://sky-code1.github.io/work/yulou.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sky-code1.github.io/work/yulou.html">
+<meta property="og:title" content="玉楼问命 · 把一段跑不起来的代码做成能聊天的小产品">
+<meta property="og:description" content="排盘、流日流年、六爻、解梦、风水；零依赖，手机扫码就能聊。">
+<meta property="og:image" content="https://sky-code1.github.io/assets/img/yulou-desktop.jpg">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">S</span>
+      <span>SKY<small> / 作品集</small></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
+      <a href="../index.html#work">作品</a>
+      <a href="../index.html#process">制作过程</a>
+      <a href="../index.html#about">关于</a>
+      <a href="../index.html#contact">联系</a>
+      <a class="nav-cta" href="../assets/resume-sky.pdf" target="_blank" rel="noopener">简历 PDF ↗</a>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= 头部 ================= -->
+  <section class="case-hero">
+    <div class="wrap">
+      <a class="back-link" href="../index.html">← 返回作品集</a>
+
+      <div class="tags reveal">
+        <span class="tag hot">独立作品</span>
+        <span class="tag">民俗文化</span>
+        <span class="tag">对话式产品</span>
+        <span class="tag">2025.06 – 2026.11</span>
+      </div>
+
+      <h1 class="reveal">把一段跑不起来的代码<br>做成能聊天的小产品</h1>
+
+      <p class="lead reveal">
+        2025 年学 LangChain 时，我照教程搭过一个“算命先生”：
+        FastAPI、Agent、Redis 记忆、Qdrant 知识库，外加三个外部 API。
+        能跑通的那一刻很兴奋，但它只有 VSCode 里一个 <code>server.py</code>——
+        没有界面，没有手机端，Key 一没就彻底打不开。
+      </p>
+      <p class="lead reveal">
+        2026 年我把它重做了一遍。这次的目标很具体：
+        <strong>不装依赖、不要 Key、手机打开就能聊</strong>，而且每个结论都能解释。
+      </p>
+
+      <dl class="case-meta reveal">
+        <div><dt>我的角色</dt><dd>需求 · 规则 · 交互 · 验收</dd></div>
+        <div><dt>时间</dt><dd>2025.06 – 2026.11</dd></div>
+        <div><dt>怎么做的</dt><dd>自己定规则，AI 写代码</dd></div>
+        <div><dt>形态</dt><dd>网页 + 可选大模型</dd></div>
+      </dl>
+
+      <div class="device-stage reveal">
+        <div class="device-desktop">
+          <img src="../assets/img/yulou-desktop.jpg" alt="玉楼问命桌面端：左侧命盘，右侧对话与四柱命盘卡" loading="lazy">
+        </div>
+        <div class="device-phone">
+          <img src="../assets/img/yulou-mobile.jpg" alt="玉楼问命手机端：单列对话与命盘卡" loading="lazy">
+        </div>
+      </div>
+      <p class="device-note">桌面端与手机端 · 真实截图（1440 × 1000 / 390 × 844）</p>
+    </div>
+  </section>
+
+  <!-- ================= 01 为什么做 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="prose reveal" style="max-width:46em">
+        <span class="eyebrow">01 / 为什么重做</span>
+        <h2 style="margin-top:14px">它不是产品，是一段练习</h2>
+
+        <p>
+          第一版的全部入口，是一个 <code>/chat</code> 接口。要跟它说话，得先打开 VSCode、起 Redis、
+          确认 Qdrant 的本地路径还在、把三个 Key 配进环境变量，再用 Postman 发请求。
+          少任何一样，它就只是硬盘上的一堆文件。
+        </p>
+        <p>
+          换设备之后我重新打开它，第一行就报错：
+          <code>ModuleNotFoundError: No module named 'openai'</code>。
+          那一刻我意识到：<strong>练习证明我会调 API；产品要证明别人能打开、能聊、出错还能继续。</strong>
+        </p>
+        <p>
+          所以这次先不写功能，先定三条验收标准——后面所有取舍都围绕它们：
+        </p>
+      </div>
+
+      <div class="kv reveal" style="max-width:46em">
+        <div class="kv-row">
+          <span class="k">能打开</span>
+          <div class="v">不装 Python 包、不配 Key、不跑 Redis，打开网页就能进；手机扫码也能进。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">能解释</span>
+          <div class="v">每个结论都能展开看到依据：哪个流日、哪个十神、哪条合冲、哪一爻动。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">能兜底</span>
+          <div class="v">大模型是加分项，不是前提。模型挂了、Key 没了，核心功能照常。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 砍依赖 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">02 / 取舍</span>
+          <h2>先砍掉“看起来很专业”的部分</h2>
+        </div>
+        <span class="more">/// 每砍一个依赖，换一次打开率</span>
+      </div>
+
+      <div class="prose reveal" style="max-width:46em; margin-bottom:18px">
+        <p>
+          第一版的技术栈是照着“标准 Agent 教程”搭的：向量库、长时记忆、工具调用，一个不少。
+          但它们没有让产品更好用，只是让它更难被打开。第二版做了下面这些替换：
+        </p>
+      </div>
+
+      <div class="reveal" style="overflow-x:auto">
+        <table class="compare">
+          <thead>
+            <tr><th>维度</th><th>v1 · 2025</th><th>v2 · 2026</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>运行环境</td><td>Python + Redis + Qdrant + 3 个 Key</td><td>一个静态页面，零前端依赖</td></tr>
+            <tr><td>入口</td><td>只有 <code>/chat</code> 接口</td><td>浏览器 + 手机扫码</td></tr>
+            <tr><td>记忆</td><td>Redis 聊天记录</td><td>localStorage（只在本机）</td></tr>
+            <tr><td>知识</td><td>Qdrant 向量库</td><td>节气表 + 六十四卦 + 结构化词条</td></tr>
+            <tr><td>大模型</td><td>唯一的大脑</td><td>可选的“嘴”，不许改数字</td></tr>
+            <tr><td>交付</td><td>本机 VSCode</td><td>GitHub Pages + 一键启动</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="note reveal" style="max-width:52em; margin-top:26px">
+        这不是“技术越简单越好”。向量库和 Agent 有它们的场景，但这个产品的核心不是“接了哪个模型”，
+        而是“我想算一卦的时候，30 秒内能不能打开”。技术选型应该服务这个判断。
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= 03 成品 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">03 / 成品</span>
+          <h2>它现在能做什么</h2>
+        </div>
+        <span class="more">/// 排盘 / 流日流年 / 六爻 / 解梦 / 风水</span>
+      </div>
+
+      <figure class="shot-full reveal">
+        <img src="../assets/img/yulou-fortune.jpg" alt="流日运势卡：分数、宜忌、幸运色与推演依据" loading="lazy">
+        <figcaption>流日：十神主题 + 日支合冲 + 喜用，加权成 1–5 分；宜忌、幸运色、依据都在一张卡里。</figcaption>
+      </figure>
+
+      <div class="kv reveal" style="margin-top:26px">
+        <div class="kv-row">
+          <span class="k">看这里</span>
+          <div class="v"><strong>一句话就能报生辰</strong>：直接打“1998年8月15日 上午9点半 女”，不用先找表单。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">看这里</span>
+          <div class="v"><strong>结论能展开</strong>：每张卡底部都有「推演依据」，写明用了哪个流日、哪条合冲、哪一爻动。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">看这里</span>
+          <div class="v"><strong>手机是主场景</strong>：单列对话、命盘抽屉、同 WiFi 扫码；生辰只存在本机浏览器。</div>
+        </div>
+      </div>
+
+      <div class="shot-grid reveal" style="margin-top:22px">
+        <figure>
+          <img src="../assets/img/yulou-gua-card.jpg" alt="六爻卦象卡：本卦、变卦、动爻与卦辞" loading="lazy">
+          <figcaption>六爻：三枚铜钱六掷，老阴老阳为动爻；本卦、变卦、动爻、卦辞与白话一次给全。</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/img/yulou-dream-card.jpg" alt="解梦卡：蛇、水、被追三个意象的民俗与心理视角" loading="lazy">
+          <figcaption>解梦：40 个常见意象，每条都给“民俗说法 + 心理视角 + 一句建议”，不装作能断吉凶。</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 04 在线试玩 ================= -->
+  <section class="section" id="demo">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">04 / 在线试玩</span>
+          <h2>不用装，直接聊</h2>
+        </div>
+        <a class="more" href="https://sky-code1.github.io/yulou/" target="_blank" rel="noopener">新窗口打开 ↗</a>
+      </div>
+
+      <div class="live-demo reveal">
+        <div class="live-demo-bar">
+          <span>yulou · 静态版（未接大模型时走本地规则）</span>
+          <span>数据只存在你的浏览器</span>
+        </div>
+        <iframe src="https://sky-code1.github.io/yulou/" title="玉楼问命在线试玩" loading="lazy" allow="clipboard-write"></iframe>
+      </div>
+
+      <p class="note reveal" style="max-width:52em; margin-top:18px">
+        这里跑的是没有服务端的版本：排盘、流日流年、六爻、解梦、风水都能用，只是没有大模型润色。
+        如果空白，可能是 Pages 还在部署——点右上角「新窗口打开」即可。
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= 05 规则 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">05 / 规则</span>
+          <h2>“算命”这件事，我把它拆成了可验证的规则</h2>
+        </div>
+        <span class="more">/// 不装神秘，也不装作科学</span>
+      </div>
+
+      <div class="kv reveal" style="max-width:52em">
+        <div class="kv-row">
+          <span class="k">八字</span>
+          <div class="v">年柱、月柱以<strong>节气瞬间</strong>为界；日柱按<strong>子初换日</strong>（23:00 起算次日）；时柱用五鼠遁；五行按藏干加权，月令再乘 1.3。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">流日 / 流年</span>
+          <div class="v">流日十神 + 日支六合/六冲/相害/半合 + 喜用是否得助 + 一个按日期固定的微小扰动，加权成 1–5 分。评分是算出来的，不是“感觉”。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">六爻</span>
+          <div class="v">三枚铜钱掷六次：6 老阴、7 少阳、8 少阴、9 老阳；老阴老阳为动爻，本卦翻动爻得变卦。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">解梦 / 风水</span>
+          <div class="v">解梦是 40 个意象的词条匹配；风水拆成“看光、看风、看动线”。民俗说法只作补充，核心是环境心理与能落地的动作。</div>
+        </div>
+        <div class="kv-row">
+          <span class="k">准确性</span>
+          <div class="v">节气表覆盖 1900–2100、精确到秒；八字回归样本 <strong>510 条</strong>；六十四卦与卦辞来自公开《周易》资料。简化模型，不追流派之争。</div>
+        </div>
+      </div>
+
+      <div class="two-col reveal" style="margin-top:44px">
+        <div class="prose">
+          <span class="eyebrow">最关键的一条</span>
+          <h3 style="margin-top:12px">不让大模型算八字</h3>
+          <p>
+            第一版让模型自由发挥，结果它会把“偏弱”说成“极旺”，把动爻说错。
+            第二版改成：本地先算出结构化结果，模型只负责把它说成陈玉楼的口吻；
+            <strong>数字、日期、干支、卦名、动爻、结论都不许改</strong>。
+          </p>
+          <p>
+            这样即使模型胡说了，用户看到的卡片仍然是准确的；模型挂了，功能也只是“少了个会说话的”，不会瘫。
+          </p>
+        </div>
+
+        <div class="code-block">
+          <header><span>system prompt · 硬约束</span><span>server.py</span></header>
+          <pre><span class="cm"># 只给事实，不给发挥空间</span>
+1. 只能使用 &lt;推演结果&gt; 里给出的事实。
+2. 所有数字、日期、干支、卦名、动爻、结论
+   都不得改动，也不得新增。
+3. 不做医疗、法律、投资上的具体承诺。
+4. 不说“作为 AI”“根据数据”“模型认为”。
+5. 120–220 字，短段落，不用 Markdown 标题。</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 06 迭代 ================= -->
+  <section class="section" id="iterations">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">06 / 迭代</span>
+          <h2>六个“看起来已经做完了”的时刻</h2>
+        </div>
+        <span class="more">/// 每一个都返工过</span>
+      </div>
+
+      <p class="prose reveal" style="max-width:46em">
+        这个作品真正花时间的，不是把界面画出来，而是那些“功能有了、一用就错”的地方。
+        下面六个阶段按实际遇到的顺序排。
+      </p>
+
+      <div class="reveal">
+        <div class="iter">
+          <span class="stage">阶段 01</span>
+          <div>
+            <h3>换台电脑，它就跑不起来了</h3>
+            <dl>
+              <dt>问题</dt>
+              <dd>第一版依赖 Redis、Qdrant、三个 Key。换设备后第一行就报 <code>No module named 'openai'</code>，补齐依赖也未必能复现 2025 年的环境。</dd>
+              <dt>怎么改</dt>
+              <dd>不再“修”它，而是重做：推演放前端，记忆换 localStorage，服务端只保留可选的模型代理。</dd>
+              <dt>确认</dt>
+              <dd>在一台没装任何 Python 包的电脑上，起一个静态服务（或直接开线上版）就能完成整套推演。</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="iter">
+          <span class="stage">阶段 02</span>
+          <div>
+            <h3>节气边界差一天，年柱月柱全错</h3>
+            <dl>
+              <dt>问题</dt>
+              <dd>最初按“2 月 4 日”估算立春，结果 2 月 4 日 16:26 前后出生的人，年柱、月柱会差一整柱。</dd>
+              <dt>怎么改</dt>
+              <dd>用寿星天文历生成 1900–2100 的 24 节气表，精确到秒；年柱、月柱都按节气瞬间比较，不看日期。</dd>
+              <dt>确认</dt>
+              <dd>拿 510 条随机生辰与 lunar_python 的八字结果比对，全部一致；另测立春前后一分钟的边界。</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="iter">
+          <span class="stage">阶段 03</span>
+          <div>
+            <h3>23:00 出生，到底算哪一天</h3>
+            <dl>
+              <dt>问题</dt>
+              <dd>不同流派有“子初换日”和“晚子时”两种做法。同一份生辰，日柱可能差一天，时柱也跟着变。</dd>
+              <dt>怎么改</dt>
+              <dd>明确选<strong>子初换日</strong>：23:00 起算次日；把这个约定写进「推演依据」，而不是藏在代码里。</dd>
+              <dt>确认</dt>
+              <dd>用 22:59 / 23:00 / 00:00 三个边界样本回归，日柱和时柱都能对上。</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="iter">
+          <span class="stage">阶段 04</span>
+          <div>
+            <h3>大模型把“偏弱”说成“极旺”</h3>
+            <dl>
+              <dt>问题</dt>
+              <dd>第一版让模型自由解读，它会补出命盘里没有的信息，甚至改掉卦名，用户根本看不出来。</dd>
+              <dt>怎么改</dt>
+              <dd>先本地算，再把结构化结果作为唯一事实来源交给模型；prompt 里写死“不许改数字、卦名、结论”。</dd>
+              <dt>确认</dt>
+              <dd>用假模型返回错误内容做对照：卡片仍然显示本地结果；模型失败时自动回退本地文案。</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="iter">
+          <span class="stage">阶段 05</span>
+          <div>
+            <h3>手机第一屏，表单比内容还长</h3>
+            <dl>
+              <dt>问题</dt>
+              <dd>最初的生辰表单有七个字段，手机上要滑两屏，填完已经不想聊了。</dd>
+              <dt>怎么改</dt>
+              <dd>支持一句话报生辰；表单压成两列，时辰可标“不确定”；快捷问题放在输入框上方。</dd>
+              <dt>确认</dt>
+              <dd>在 390 × 844 的视口里从空白走到排盘，记录需要几次点击、几次滚动。</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="iter">
+          <span class="stage">阶段 06</span>
+          <div>
+            <h3>作品集放不了 Python 后端</h3>
+            <dl>
+              <dt>问题</dt>
+              <dd>GitHub Pages 只能托管静态文件。如果把推演留在 Python 里，案例页就永远只能放截图。</dd>
+              <dt>怎么改</dt>
+              <dd>把引擎整体搬进浏览器；Python 服务只做两件事：托管静态文件、可选地代理大模型。没有服务端也能跑。</dd>
+              <dt>确认</dt>
+              <dd>同一个页面在三种环境各跑一遍：本地服务、GitHub Pages、手机浏览器。</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 07 结构 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">07 / 结构</span>
+          <h2>一个页面，两种运行方式</h2>
+        </div>
+        <span class="more">/// 没有服务端也能完整推演</span>
+      </div>
+
+      <figure class="diagram diagram-wide reveal">
+        <svg viewBox="0 0 760 330" role="img" aria-label="玉楼问命架构图">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#5fe3c4"/>
+            </marker>
+          </defs>
+
+          <rect x="170" y="10" width="420" height="92" rx="12" fill="#0f1418" stroke="rgba(255,255,255,.14)"/>
+          <text x="380" y="42" text-anchor="middle" fill="#e9ecef" font-size="15" font-weight="600">浏览器</text>
+          <text x="380" y="66" text-anchor="middle" fill="#a2a9b3" font-size="12">对话 UI · 推演引擎 · localStorage</text>
+          <text x="380" y="86" text-anchor="middle" fill="#6f7783" font-size="10.5">四柱 / 流日流年 / 六爻 / 解梦 / 风水</text>
+
+          <line x1="380" y1="102" x2="380" y2="150" stroke="#5fe3c4" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+          <text x="394" y="132" fill="#6f7783" font-size="10.5">可选 · POST /api/chat</text>
+
+          <rect x="170" y="152" width="420" height="74" rx="12" fill="#0f1418" stroke="rgba(255,255,255,.14)"/>
+          <text x="380" y="180" text-anchor="middle" fill="#e9ecef" font-size="14" font-weight="600">server.py（可选）</text>
+          <text x="380" y="202" text-anchor="middle" fill="#a2a9b3" font-size="11.5">静态托管 · 模型代理 · 局域网二维码</text>
+
+          <line x1="380" y1="226" x2="380" y2="268" stroke="#5fe3c4" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+
+          <rect x="170" y="270" width="420" height="50" rx="12" fill="#0f1418" stroke="rgba(255,255,255,.14)"/>
+          <text x="380" y="300" text-anchor="middle" fill="#a2a9b3" font-size="12">任意 OpenAI 兼容模型 · 只负责措辞</text>
+        </svg>
+        <figcaption>推演与 UI 都在前端；Python 只做可选的模型代理。这样“打开就能用”不依赖任何服务。</figcaption>
+      </figure>
+
+      <div class="stat-grid reveal" style="margin-top:30px">
+        <div class="stat"><b>0<span class="u">个</span></b><span>前端依赖 / 无构建</span></div>
+        <div class="stat"><b>0<span class="u">个</span></b><span>Key 也能完整使用</span></div>
+        <div class="stat"><b>510<span class="u">条</span></b><span>八字回归样本</span></div>
+        <div class="stat"><b>26<span class="u">项</span></b><span>端到端界面检查</span></div>
+      </div>
+
+      <p class="note reveal" style="max-width:52em; margin-top:22px">
+        技术栈：原生 HTML / CSS / JS（无框架、无 CDN、无追踪）；Python 标准库起服务；
+        大模型走 OpenAI 兼容接口。首屏不请求任何外部资源。
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= 08 结果与边界 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">08 / 结果与边界</span>
+          <h2>它做到了什么，又没做到什么</h2>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="prose reveal">
+          <h3 style="margin-top:0">做到了</h3>
+          <ul>
+            <li>没有后端、没有 Key、没有 pip 安装，打开网页就能完成一次完整推演。</li>
+            <li>手机扫码即用；生辰和聊天记录只留在本机浏览器，可一键清空。</li>
+            <li>每个结论都能展开看依据，不用“信则灵”糊弄过去。</li>
+            <li>接上大模型后，陈玉楼会说话；模型失败时自动退回本地文案。</li>
+            <li>同一套页面在本地服务、GitHub Pages、手机浏览器三种环境都能跑。</li>
+          </ul>
+
+          <h3>没做到 / 不打算做</h3>
+          <ul>
+            <li>它不是科学预测，也不承诺“改运”“化解”；页面常驻免责声明。</li>
+            <li>八字强弱、喜用是简化模型，不追求命理界的流派共识。</li>
+            <li>没接微信 / Telegram：个人号有封号风险，公众号要认证；先把网页入口做扎实。</li>
+            <li>没有做账号体系和云端同步——这个产品不需要知道你是谁。</li>
+          </ul>
+        </div>
+
+        <div class="reveal">
+          <div class="about-card">
+            <h3 style="font-size:1rem; margin-bottom:16px">这个作品能说明什么</h3>
+            <ul class="about-list" style="margin-top:0">
+              <li>能把“跑得起来的 demo”翻译成“别人能打开的产品”。</li>
+              <li>敢做减法：每砍一个依赖，都是在换打开率。</li>
+              <li>知道模型该放在哪：算得准的归规则，说得好的归模型。</li>
+              <li>把边界写进产品：免责声明、依据展开、失败回退。</li>
+            </ul>
+            <div class="tags" style="margin-top:22px; margin-bottom:0">
+              <span class="tag">产品取舍</span>
+              <span class="tag">规则设计</span>
+              <span class="tag">对话体验</span>
+              <span class="tag">交付意识</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 09 复盘 ================= -->
+  <section class="section">
+    <div class="wrap">
+      <div class="two-col">
+        <div class="prose reveal">
+          <span class="eyebrow">09 / 复盘</span>
+          <h2 style="margin-top:14px">重做之后，我改掉的三个判断</h2>
+
+          <p>
+            <strong>1. “能跑”不是完成，“能交付”才是。</strong>
+            第一版在能跑的那天就停了，没有入口、没有失败路径、没有告诉用户数据存在哪。
+            第二版把“别人怎么打开、出错怎么办、数据在哪”当成需求的一部分。
+          </p>
+          <p>
+            <strong>2. 砍功能比加功能难。</strong>
+            向量库、长时记忆、多 Agent 听起来更厉害，但它们让“打开”的概率变低。
+            每砍一个依赖，我都在心里问一次：这个能力，用户真的会为了它多装一个环境吗？
+          </p>
+          <p>
+            <strong>3. 可解释性本身就是产品的一部分。</strong>
+            算命这件事，用户本来就将信将疑。把“用了哪个流日、哪条合冲”摊开，
+            他未必全信，但至少知道你不是在瞎编——这比多给几个结论更重要。
+          </p>
+        </div>
+
+        <div class="reveal">
+          <div class="about-card">
+            <h3 style="font-size:1rem; margin-bottom:16px">如果继续做</h3>
+            <ul class="about-list" style="margin-top:0">
+              <li>把“大运”和“流月”补齐，做时间轴而不是单点运势。</li>
+              <li>给六爻加“所问之事”的结构化追问，减少开放式问题。</li>
+              <li>做一个可分享的命盘图，而不是只截聊天记录。</li>
+              <li>接一个轻量账号体系，让换设备时能带走自己的盘。</li>
+            </ul>
+            <a class="link-arrow" href="https://github.com/SKY-code1/yulou" target="_blank" rel="noopener" style="margin-top:20px">
+              代码与说明 <span class="arw">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="case-nav">
+      <a class="link-arrow" href="desktop-organizer.html">← 上一个：桌面整理器</a>
+      <a class="link-arrow" href="../index.html#contact">聊聊这个作品 <span class="arw">→</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 SKY 吴渊博 · 作品集</span>
+    <span class="mono">案例：玉楼问命 Yulou</span>
+  </div>
+</footer>
+
+<script src="../assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,20 +1,29 @@
-﻿# SKY 吴渊博 · 作品集
+# SKY 吴渊博 · 作品集
 
 纯静态站点（手写 HTML / CSS / JS，零框架、零构建、零依赖），可直接双击打开，
-也可直接部署到 GitHub Pages。
+也可直接部署到 GitHub Pages：<https://sky-code1.github.io/>
+
+## 内容结构
 
 ```
 portfolio/
 ├─ index.html                    首页：首屏 / 作品 / 制作过程 / 关于 / 联系
 ├─ work/
-│  └─ desktop-organizer.html     案例：桌面整理器的初衷、成品与迭代过程
+│  ├─ desktop-organizer.html     案例 01：桌面整理器（初衷、成品、五个迭代阶段）
+│  └─ yulou.html                 案例 02：玉楼问命（取舍、规则、六个迭代阶段、在线试玩）
 ├─ assets/
 │  ├─ css/style.css              全部样式（含响应式与动效）
 │  ├─ js/main.js                 菜单、滚动揭示、复制邮箱
 │  ├─ img/
 │  │  ├─ favicon.svg
-│  │  ├─ demo-poster.jpg         视频封面 / 首页代表图（桌面上的分组）
-│  │  └─ demo-settings.jpg       设置面板截图
+│  │  ├─ demo-poster.jpg         桌面整理器封面 / 首页代表图
+│  │  ├─ demo-settings.jpg       桌面整理器设置面板
+│  │  ├─ yulou-desktop.jpg       玉楼问命桌面端全图
+│  │  ├─ yulou-mobile.jpg        玉楼问命手机端
+│  │  ├─ yulou-card.jpg          玉楼问命六爻卡特写（首页作品 02）
+│  │  ├─ yulou-fortune.jpg       流日卡全图（案例页大图）
+│  │  ├─ yulou-gua-card.jpg      六爻卡特写
+│  │  └─ yulou-dream-card.jpg    解梦卡特写
 │  ├─ video/
 │  │  └─ desktop-organizer-demo.mp4   演示视频（1 分 37 秒 / 720p / 2.7 MB）
 │  └─ resume-sky.pdf             简历下载
@@ -41,13 +50,13 @@ powershell -ExecutionPolicy Bypass -File preview.ps1
 
 ### 方式 A：分支部署（最简单）
 
-1. 新建仓库（如 `portfolio`），把本目录所有文件推到 `main`；
+1. 新建仓库（如 `sky-code1.github.io`），把本目录所有文件推到 `main`；
 2. **Settings → Pages → Build and deployment**：Source 选 **Deploy from a branch**，
    Branch 选 `main`、目录选 `/ (root)`，保存；
-3. 约 1 分钟后访问 `https://sky-code1.github.io/portfolio/`。
+3. 约 1 分钟后访问 `https://sky-code1.github.io/`。
 
-> ⚠️ **简历里写的是 https://sky-code1.github.io/**，所以仓库必须命名为 sky-code1.github.io（用户名站点），
-> 不要叫 portfolio，否则地址会变成 https://sky-code1.github.io/portfolio/，和简历对不上。
+> 简历里写的是 <https://sky-code1.github.io/>，所以仓库必须命名为 `sky-code1.github.io`（用户名站点），
+> 不要叫 portfolio，否则地址会变成 `https://sky-code1.github.io/portfolio/`，和简历对不上。
 
 ### 方式 B：GitHub Actions（已配好工作流）
 
@@ -56,6 +65,13 @@ powershell -ExecutionPolicy Bypass -File preview.ps1
 3. 之后每次推送 `main` 自动发布。
 
 两种方式选一种，不要同时开。
+
+## 玉楼问命的在线试玩
+
+`work/yulou.html` 里用 iframe 嵌了 <https://sky-code1.github.io/yulou/>。
+它需要先把独立仓库 `SKY-code1/yulou` 推到 GitHub 并开启 Pages（Settings → Pages → Deploy from a branch → main / root）。
+
+如果暂时没开，案例页会显示一块空白；把 iframe 的 `src` 换成一个截图或先注释掉即可。
 
 ## 演示视频的构成
 
@@ -90,31 +106,26 @@ ffmpeg -ss 30 -i assets/video/desktop-organizer-demo.mp4 -frames:v 1 -q:v 3 asse
 | 想改什么 | 改哪里 |
 | --- | --- |
 | 姓名 / 邮箱 / GitHub / 电话 | `index.html` 顶部、联系区、页脚 |
-| 首页三条作品要点 | `index.html` 的 `.work-points` 三段 `.point` |
+| 首页两件作品的标题与简介 | `index.html` 的 `#work`（作品 01 / 作品 02 两个 `.work-sub-head`） |
+| 桌面整理器案例 | `work/desktop-organizer.html` |
+| 玉楼问命案例 | `work/yulou.html` |
 | 制作过程的四个阶段 | `index.html` 的 `#process` 里 `.timeline` |
 | 关于我 + 实习简述 | `index.html` 的 `#about`（`.brief` 每条一行） |
-| 案例正文 | `work/desktop-organizer.html` |
 | 简历文件 | 覆盖 `assets/resume-sky.pdf`（保持文件名） |
+| 玉楼问命截图 | 覆盖 `assets/img/yulou-*.jpg`（保持文件名） |
 
 ### 加一个新作品
 
-在首页 `#work` 的 `.work-more` 里，把 `.mini-card.ghost` 换成真实内容：
-
-```html
-<article class="mini-card">
-  <span class="ph-label">2026.01 – 2026.03 · 角色</span>
-  <h4>项目名称</h4>
-  <p>一句话说明解决了什么问题，加一个能验证的数字。</p>
-</article>
-```
-
-要给它单独一页，就复制 `work/desktop-organizer.html` 改名后重写内容。
+1. 在 `index.html` 的 `#work` 里复制一个 `.work-sub` 块，改标题、图、指标和链接；
+2. 复制 `work/yulou.html` 改名后重写内容；
+3. 在案例页底部 `.case-nav` 里和上一个作品互相链接。
 
 ## 设计说明
 
-- 深色 + 单一强调色（`--accent: #5fe3c4`）、等宽字体做标签，整体偏"文档感"；
-- 首页是作品集结构：首屏只有一段话，紧接着就是整幅演示视频；
+- 深色 + 单一强调色（`--accent: #5fe3c4`）、等宽字体做标签，整体偏“文档感”；
+- 首页是作品集结构：首屏只有一段话，紧接着是两件作品的完整呈现；
 - 案例页把"教训"和"技术细节"降级为迭代记录，主角是成品和制作过程；
+- 玉楼问命案例沿用同一套版式，但把产品截图放进“设备舞台”，并用 iframe 提供在线试玩；
 - 动效遵守 `prefers-reduced-motion`，并提供打印样式；
 - 无外部字体、无 CDN、无统计脚本；视频 `preload="metadata"`，不点播放几乎不耗流量。
 
@@ -122,5 +133,7 @@ ffmpeg -ss 30 -i assets/video/desktop-organizer-demo.mp4 -frames:v 1 -q:v 3 asse
 
 - [ ] 手机宽度下导航能展开、视频可播放、要点单列显示
 - [ ] 视频能播放且可拖动进度（GitHub Pages 原生支持 mp4 + Range）
+- [ ] `work/yulou.html` 的在线试玩能加载（`SKY-code1/yulou` 已开启 Pages）
 - [ ] 简历 PDF 是最新版
-- [ ] 首页和案例页之间互跳正常
+- [ ] 首页和两个案例页之间互跳正常
+- [ ] 断网/慢网时，案例页图片与 iframe 不阻塞正文
