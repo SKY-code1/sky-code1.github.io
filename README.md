@@ -10,7 +10,8 @@ portfolio/
 ├─ index.html                    首页：首屏 / 作品 / 制作过程 / 关于 / 联系
 ├─ work/
 │  ├─ desktop-organizer.html     案例 01：桌面整理器（初衷、成品、五个迭代阶段）
-│  └─ yulou.html                 案例 02：玉楼问命（取舍、规则、六个迭代阶段、在线试玩）
+│  └─ yulou.html                 案例 02：玉楼问命（v1 → v2、取舍、规则、在线试玩）
+├─ yulou/                        v2 的静态演示快照（iframe 内嵌；源码在 SKY-code1/yulou）
 ├─ assets/
 │  ├─ css/style.css              全部样式（含响应式与动效）
 │  ├─ js/main.js                 菜单、滚动揭示、复制邮箱
@@ -18,12 +19,14 @@ portfolio/
 │  │  ├─ favicon.svg
 │  │  ├─ demo-poster.jpg         桌面整理器封面 / 首页代表图
 │  │  ├─ demo-settings.jpg       桌面整理器设置面板
-│  │  ├─ yulou-desktop.jpg       玉楼问命桌面端全图
-│  │  ├─ yulou-mobile.jpg        玉楼问命手机端
-│  │  ├─ yulou-card.jpg          玉楼问命六爻卡特写（首页作品 02）
+│  │  ├─ yulou-desktop.jpg       玉楼问命 v2 桌面端全图
+│  │  ├─ yulou-mobile.jpg        玉楼问命 v2 手机端
+│  │  ├─ yulou-card.jpg          玉楼问命 v2 六爻卡特写（首页作品 02）
 │  │  ├─ yulou-fortune.jpg       流日卡全图（案例页大图）
 │  │  ├─ yulou-gua-card.jpg      六爻卡特写
-│  │  └─ yulou-dream-card.jpg    解梦卡特写
+│  │  ├─ yulou-dream-card.jpg    解梦卡特写
+│  │  ├─ yulou-v1.jpg            v1 Agent 展示页
+│  │  └─ yulou-v1-bazi.jpg       v1 的一次真实八字调用
 │  ├─ video/
 │  │  └─ desktop-organizer-demo.mp4   演示视频（1 分 37 秒 / 720p / 2.7 MB）
 │  └─ resume-sky.pdf             简历下载
@@ -68,10 +71,12 @@ powershell -ExecutionPolicy Bypass -File preview.ps1
 
 ## 玉楼问命的在线试玩
 
-`work/yulou.html` 里用 iframe 嵌了 <https://sky-code1.github.io/yulou/>。
-它需要先把独立仓库 `SKY-code1/yulou` 推到 GitHub 并开启 Pages（Settings → Pages → Deploy from a branch → main / root）。
+`work/yulou.html` 里的 iframe 指向本仓库的 `yulou/` 目录——它是 v2 源码的**静态快照**，
+推上来就能用，不依赖第二个 Pages 站点。
 
-如果暂时没开，案例页会显示一块空白；把 iframe 的 `src` 换成一个截图或先注释掉即可。
+- 源码与 v1 Agent：<https://github.com/SKY-code1/yulou>
+- 更新演示：把 `SKY-code1/yulou` 根目录的 `index.html` 与 `assets/` 同步到本仓库 `yulou/`；
+- 快照没有服务端：`/api/health` 会 404，界面自动隐藏「手机扫码」，其余功能不变。
 
 ## 演示视频的构成
 
@@ -133,7 +138,8 @@ ffmpeg -ss 30 -i assets/video/desktop-organizer-demo.mp4 -frames:v 1 -q:v 3 asse
 
 - [ ] 手机宽度下导航能展开、视频可播放、要点单列显示
 - [ ] 视频能播放且可拖动进度（GitHub Pages 原生支持 mp4 + Range）
-- [ ] `work/yulou.html` 的在线试玩能加载（`SKY-code1/yulou` 已开启 Pages）
+- [ ] `work/yulou.html` 的在线试玩能加载（本仓库 `yulou/` 快照存在）
+- [ ] v1 截图与 GitHub 链接可点（`SKY-code1/yulou` 公开）
 - [ ] 简历 PDF 是最新版
 - [ ] 首页和两个案例页之间互跳正常
 - [ ] 断网/慢网时，案例页图片与 iframe 不阻塞正文
